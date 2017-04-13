@@ -71,6 +71,7 @@ interface(`ioport_use_resource',`
 	')
 
 	allow $1 ioport_t:resource use;
+	allow $1 ioport_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -125,6 +126,7 @@ interface(`pirq_use_resource',`
 	')
 
 	allow $1 pirq_t:resource use;
+	allow $1 pirq_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -325,6 +327,7 @@ interface(`domio_use_resource',`
 	')
 
 	allow $1 domio_t:resource use;
+	allow $1 domio_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -343,6 +346,7 @@ interface(`iomem_use_resource',`
 	')
 
 	allow $1 iomem_t:resource use;
+	allow $1 iomem_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -361,6 +365,7 @@ interface(`device_use_resource',`
 	')
 
 	allow $1 device_t:resource use;
+	allow $1 device_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -526,7 +531,7 @@ interface(`xen_rw_console',`
 ########################################
 ## <summary>
 ##	Allow dom0 to pass through PCI devices
-##	to the specified guest.
+##	to the specified guest with or without an IOMMU active.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -543,6 +548,29 @@ interface(`dom0_pt_guest',`
 	allow $1 device_t:resource use;
 	allow $1 iomem_t:resource use;
 	allow $1 ioport_t:resource use;
+
+    dom0_pt_guest_with_iommu($1)
+')
+########################################
+## <summary>
+##	Allow dom0 to pass through PCI devices
+##	to the specified guest *only* when an IOMMU is active.
+## </summary>
+## <param name="type">
+##	<summary>
+##	Type of the domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dom0_pt_guest_with_iommu',`
+	gen_require(`
+		type pirq_t, device_t, iomem_t, ioport_t;
+	')
+
+	allow $1 pirq_t:resource use_with_iommu;
+	allow $1 device_t:resource use_with_iommu;
+	allow $1 iomem_t:resource use_with_iommu;
+	allow $1 ioport_t:resource use_with_iommu;
 ')
 ########################################
 ## <summary>
@@ -583,6 +611,7 @@ interface(`use_device',`
 	')
 
 	allow $1 $2:resource use;
+	allow $1 $2:resource use_with_iommu;
 	allow $1 domio_t:mmu { map_read map_write };
 ')
 ########################################

@@ -430,6 +430,12 @@ class resource
 #  target = resource's security label
 # also checked when using some core Xen devices (target xen_t)
     use
+# A distinct permission when an IOMMU is active.
+# checked when adding a resource to a domain:
+#  source = domain which will have access to the resource
+#  target = resource's security label
+# also checked when using some core Xen devices (target xen_t)
+    use_with_iommu
 # PHYSDEVOP_map_pirq and ioapic writes for dom0, when acting on real IRQs
 #  For GSI interrupts, the IRQ's label is indexed by the IRQ number
 #  For MSI interrupts, the label of the PCI device is used

@@ -40,7 +40,7 @@ dom0_event_src(ndvm_t, dom0-ndvm_evchn_t)
 # Local Policy
 #
 
-dom0_pt_guest(ndvm_t)
+dom0_pt_guest_with_iommu(ndvm_t)
 dom0_send_v4v(ndvm_t)
 domio_map_write_mmu(ndvm_t)
 ioport_use_resource(ndvm_t)
